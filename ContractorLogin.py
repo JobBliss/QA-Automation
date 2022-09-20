@@ -1,7 +1,6 @@
 import os
 import time
 import selenium
-import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,22 +9,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager as CM
 from PIL import Image
+import logging
 from Screenshot import *
 
 
 
 def jobblissLogin():
-    logging.basicConfig(filename='LoginToJobbliss_log.txt', level=logging.DEBUG, format="%(asctime)s %(message)s",
-                        filemode='w')
+
+    logging.basicConfig(filename='ContractorLogin_log.txt', level=logging.DEBUG, format="%(asctime)s %(message)s", filemode='w')
     # Complete these 2 fields ==================
-    #USERNAME = 'anesu+contractor@velocityinc.tech'
-    #PASSWORD = 'Greenballs123'
-    USERNAME = 'anesuchiodza@yahoo.com'
-    PASSWORD = 'testCase123_'
+    USERNAME = 'anesu+contractor@velocityinc.tech'
+    PASSWORD = 'Greenballs123'
     SEARCH = '********'
     # ==========================================
     fscreenshot = Screenshot.Screenshot()
-    print("Login As a Company/Admin")
 
 
     TIMEOUT = 10
@@ -72,12 +69,13 @@ def jobblissLogin():
 
 
     # Take a screenshot of the Page and store it for analysis.
-    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn.png')
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='Contractor.png')
     time.sleep(3)
-    #screenshot = Image.open('yahootest.png')
-    #screenshot.show()
-    print("Logged In As a Company/Admin Successfully")
+    screenshot = Image.open('Contractor.png')
+    screenshot.show()
 
+    # Condition Logic, If the text searched is there open email and report success. (Optional as one can take a look at the screenshots)
+    # Option to log the info in  a seperate file can be explored.
 
 
 if __name__ == '__main__':
