@@ -38,7 +38,7 @@ def jobblissLogin():
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
     #options.add_argument("--kiosk")
 
     browser = webdriver.Chrome(executable_path=CM().install(), options=options)
@@ -46,19 +46,7 @@ def jobblissLogin():
     browser.get(
         'https://alpha.jobbliss.com/signin')
 
-    #time.sleep(30)
-
-    #session_req = requests.session()
-    #browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 'T')
-
-    #time.sleep(2)
-
-    #browser.get('https://alpha.jobbliss.com/')
-    #browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 'T')
-
-    #browser.get('https://alpha.jobbliss.com/signin')
     
-
     
     #time.sleep(20)
     print("[Info] - Logging in process in progress...")
