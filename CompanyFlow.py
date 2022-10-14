@@ -13,19 +13,28 @@ from webdriver_manager.chrome import ChromeDriverManager as CM
 from PIL import Image
 from Screenshot import *
 from uploadDocument import *
-
+import datetime
+import csv
+import sendEmail
+import LoginSeq
 
 
 
 logging.basicConfig(filename='Company_Flow_log.txt', level=logging.DEBUG, format="%(asctime)s %(message)s",
                         filemode='w')
 # Complete these variables ==================
-#USERNAME = 'anesu+contractor@velocityinc.tech'
-#PASSWORD = 'Greenballs123'
+
 USERNAME = 'anesuchiodza@yahoo.com'
 PASSWORD = 'testCase123_'
 SEARCH = '********'
 TIMEOUT = 10
+
+start_time = datetime.datetime.now()
+print(start_time)
+
+LoginSeq.LoginToJobbliss.jobblissLogin()
+LoginSeq.ManagerLogin.jobblissLogin()
+LoginSeq.ContractorLogin.jobblissLogin()
 
 
 # ==========================================
@@ -34,6 +43,7 @@ print("Login As a Company/Admin")
 
 
 
+search_word_count = 'Passed'
 
 options = webdriver.ChromeOptions()
 options.add_argument('--no-sandbox')
@@ -93,7 +103,7 @@ try:
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
-        writer.writerow(header)
+        #writer.writerow(header)
 
         writer.writerow(data)
 
@@ -289,8 +299,20 @@ time.sleep(3)
 print('notes Written Successfully!')
 time.sleep(3)
 
-browser.get(
-    'https://alpha.jobbliss.com/dashboard')
+#Delete note
+DeleteNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[3]/div[2]/div/a[2]/p')))
+DeleteNotes_button.click()
+
+image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
+time.sleep(3)
+#screenshot = Image.open('addNotes.png')
+
+#Write the notes.
+confirmDeleteNotes = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="vueConfirm"]/div/div/button[2]')))
+confirmDeleteNotes.click()
+    
+
+time.sleep(4)
 
 # clickCompanyResources
 
@@ -425,6 +447,128 @@ try:
         time.sleep(3)
 finally:
     print('Done')
+# clickManage
+
+clickManage_button = WebDriverWait(browser, TIMEOUT).until(
+    EC.presence_of_element_located((
+        By.XPATH,
+        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/summary/span')))
+
+time.sleep(0.4)
+
+clickManage_button.click()
+
+time.sleep(1)
+#Managers
+manager_button = WebDriverWait(browser, TIMEOUT).until(
+    EC.presence_of_element_located((
+        By.XPATH,
+        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/div[1]')))
+
+time.sleep(0.4)
+
+manager_button.click()
+
+viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
+    EC.presence_of_element_located((
+        By.XPATH,
+        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div[2]/a/div/div/button')))
+
+time.sleep(0.4)
+
+viewprofile_button.click()
+time.sleep(3)
+
+disableprofile_button = WebDriverWait(browser, TIMEOUT).until(
+    EC.presence_of_element_located((
+        By.XPATH,
+        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[1]/div/button')))
+
+time.sleep(0.4)
+
+disableprofile_button.click()
+time.sleep(3)
+#ConfirmDisable
+confirm_disable_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
+confirm_disable_button.click()
+
+# DeleteManager
+deleteMgr_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
+    (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[2]/div/button')))
+deleteMgr_button.click()
+
+# DeleteManagerConfirm
+deleteMgrConfirm_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
+    (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
+deleteMgrConfirm_button.click()
+
+
+
+
+
+
+time.sleep(3)
+
+
+
+# opening text file in read only mode
+file = open("./AutomationQA_Summary.csv", "r")
+
+
+# reading data of the file
+read_data = file.read()
+per_word = read_data.split()
+
+total =len(per_word)
+print(total)
+print(per_word)
+
+num_rows = 0
+
+for row in open("./AutomationQA_Summary.csv"):
+    num_rows += 1
+
+
+# converting data in lower case and the counting the occurrence 
+word_count = read_data.count(search_word_count)
+
+reader = csv.reader(file)
+linecount= len(list(reader))
+
+
+# printing word and it's count
+print(f"The word '{search_word_count}' appeared {word_count} times.")
+linecount=num_rows-1
+percentageresult = (word_count/linecount)*100
+
+print(f"'{percentageresult}' %" )
+
+if percentageresult<85:
+    print("The test has failed")
+
+else:
+    print('We have the Go Ahead with P2 Tests')
+
+end_time = datetime.datetime.now()
+print(start_time)
+print(end_time)
+
+timediff = end_time - start_time
+
+print(timediff)
+
+print(f"Total time taken to execute the script is {timediff.total_seconds()} seconds")
+inMinutes = timediff/60
+print(inMinutes)
+
+ms = timediff.total_seconds() * 1000
+print(f"Total time taken to execute the script is {ms} milliseconds")
+
+
+sendEmail.emailLogin()
+
+
+
 
 
 
