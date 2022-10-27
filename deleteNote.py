@@ -113,7 +113,7 @@ def deleteNotes():
     time.sleep(3)
 
     #Delete note
-    DeleteNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="d0323a80-be80-494f-a854-e456c14b50b0"]/div/div/div/div[3]/div/div/div/div[3]/div[2]/div/a[2]/p')))
+    DeleteNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[3]/div[2]/div/a[2]/p')))
     DeleteNotes_button.click()
 
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
@@ -121,8 +121,8 @@ def deleteNotes():
     #screenshot = Image.open('addNotes.png')
 
     #Write the notes.
-    NotesWrite = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="vueConfirm"]/div/div/button[2]')))
-    NotesWrite.click()
+    confirmDeleteNotes = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="vueConfirm"]/div/div/button[2]')))
+    confirmDeleteNotes.click()
     
 
     time.sleep(3)

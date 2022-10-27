@@ -1,0 +1,4 @@
+The word 'Passed' appeared 5 times.
+Percentage pass-rate'100.0' %
+Total time taken to execute the script is 0.028922 seconds
+Total time taken to execute the script is 28.922 milliseconds

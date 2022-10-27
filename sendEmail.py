@@ -37,6 +37,7 @@ def emailLogin():
         'https://login.yahoo.com/?.src=ym&pspid=2023538075&activity=ybar-mail&.lang=en-US&.intl=us&.done=https%3A%2F%2Fmail.yahoo.com%2Fd%2F%3Fpspid%3D2023538075%26activity%3Dybar-mail')
 
     time.sleep(2)
+    browser.maximize_window()
 
     print("[Info] - Logging in...")
     # emailAddress
@@ -84,7 +85,7 @@ def emailLogin():
 
     time.sleep(0.4)
 
-    emailLogin.send_keys(EMAIL_TO)
+    emailTo.send_keys(EMAIL_TO)
 
 
     subjectElement = WebDriverWait(browser, TIMEOUT).until(
@@ -96,20 +97,38 @@ def emailLogin():
     subjectElement.send_keys(SUBJECT)
 
     #
+    setting_data = open('emailContent.txt', 'r')
+    lining = setting_data.readlines()
+    limited_n_ints = ''
+    for i in lining:
+        limited_n_ints = limited_n_ints + i
+        
+    MessageBody = limited_n_ints
+
     messageComposer = WebDriverWait(browser, TIMEOUT).until(
         EC.presence_of_element_located((
-            By.XPATH('//*[@id="editor-container"]/div[1]').send_keys('Test Email From this thing'))))
+            By.XPATH , '//*[@id="editor-container"]/div[1]')))
+
+    messageComposer.send_keys(MessageBody)
 
     time.sleep(3)
 
+    #//*[@id="mail-app-component"]/div/div/div/div[2]/div[2]/div/button
+
+    sendMsg = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH , '//*[@id="mail-app-component"]/div/div/div/div[2]/div[2]/div/button')))
+
+    sendMsg.click()
+
+    time.sleep(5)
+
+    print('Email sent')
 
     
 
     # Take a screenshot of the Page and store it for analysis.
-    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='yahootest.png')
-    time.sleep(3)
-    screenshot = Image.open('EmailSent.png')
-    screenshot.show()
+   
 
 if __name__ == '__main__':
     emailLogin()

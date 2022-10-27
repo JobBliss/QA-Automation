@@ -135,7 +135,7 @@ def deleteMgrFromCo():
     browser.close()
 
     # c.stop()
-
+    
 
 # Documents xpath
 # /html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[6]/div/details/summary/span/span[2]
