@@ -1,7 +1,7 @@
 import os
 import time
 import selenium
-from LoginToJobbliss import *
+import pyautogui
 import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -12,11 +12,11 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager as CM
 from PIL import Image
 from Screenshot import *
-from uploadDocument import *
 import datetime
 import csv
+import parameters
+import paths
 import sendEmail
-import LoginSeq
 
 
 
@@ -32,9 +32,9 @@ TIMEOUT = 10
 start_time = datetime.datetime.now()
 print(start_time)
 
-LoginSeq.LoginToJobbliss.jobblissLogin()
-LoginSeq.ManagerLogin.jobblissLogin()
-LoginSeq.ContractorLogin.jobblissLogin()
+#LoginSeq.LoginToJobbliss.jobblissLogin()
+#LoginSeq.ManagerLogin.jobblissLogin()
+#LoginSeq.ContractorLogin.jobblissLogin()
 
 
 # ==========================================
@@ -256,6 +256,11 @@ time.sleep(0.4)
 
 companyDb_button.click()
 
+#searchPerson
+
+searchPerson = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[2]/div/div/div[2]/div[1]/div[2]/div/div/input')))
+searchPerson.send_keys('Anesu')
+time.sleep(10)
 #viewProfile
 viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
     EC.presence_of_element_located((
@@ -316,14 +321,14 @@ time.sleep(4)
 
 # clickCompanyResources
 
-CompanyResources_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/summary/span')))
+# CompanyResources_button = WebDriverWait(browser, TIMEOUT).until(
+#     EC.presence_of_element_located((
+#         By.XPATH,
+#         '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/summary')))
 
-time.sleep(0.4)
+# time.sleep(0.4)
 
-CompanyResources_button.click()
+#CompanyResources_button.click()
 
 time.sleep(1)
 #CompanyDatabase
@@ -346,6 +351,8 @@ time.sleep(0.4)
 viewprofile_button.click()
 time.sleep(3)
 
+#Remove Contractor From Company
+
 removefromCo_button = WebDriverWait(browser, TIMEOUT).until(
     EC.presence_of_element_located((
         By.XPATH,
@@ -357,7 +364,7 @@ removefromCo_button.click()
 time.sleep(3)
 
 #ConfirmRemove
-confirm_remove_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[3]/div/div[2]/form/div[1]/div[3]/div[2]/div/button')))
+confirm_remove_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[3]/div/div[2]/form/div[1]/div[3]/div[2]/div/button')))
 confirm_remove_button.click()
 
 image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='removeContractorFromCompany.png')
@@ -472,7 +479,7 @@ manager_button.click()
 viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
     EC.presence_of_element_located((
         By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div[2]/a/div/div/button')))
+        '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/a/div/div/button/span')))
 
 time.sleep(0.4)
 
@@ -502,14 +509,242 @@ deleteMgrConfirm_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_e
     (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
 deleteMgrConfirm_button.click()
 
+data = ['Delete Manager' 'Passed']
+
+with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+
+    #writer.writerow(header)
+
+    writer.writerow(data)
+
+    time.sleep(3)
+
+#Invite Contractor/Company Database
+
+browser.get(parameters.dbview)
+browser.maximize_window()
+
+try:
+    #try this block first
+    elemupload = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.uploadContractor))     
+    )
+    elemupload.click()
+
+    
+
+    emailCont = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.emailContractor))     
+    )
+    emailCont.send_keys(parameters.contractorEmail)
+
+    fname = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.fnameContractor))     
+    )
+    fname.send_keys(parameters.fnameContractor)
+
+    lname = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.lnameContractor))     
+    )
+    lname.send_keys(parameters.lnameContractor)
+    time.sleep(10)
+    addContr = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.invitecontractor))     
+    )
+    addContr.click()
+
+
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='dataBase.png')
+    time.sleep(3)
+
+    header = ['Test Name', 'State']
+
+    #data
+    data = ['inviteContractor' 'Passed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+#catch exception
+except:
+    #try this block first
+    elemupload = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.uploadContractor))     
+    )
+    elemupload.click()
+
+    
+
+    emailCont = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.emailContractor))     
+    )
+    emailCont.send_keys(parameters.contractorEmail)
+
+    fname = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.fnameContractor))     
+    )
+    fname.send_keys(parameters.fnameContractor)
+
+    lname = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.lnameContractor))     
+    )
+    lname.send_keys(parameters.lnameContractor)
+
+    time.sleep(10)
+
+    addContr = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.invitecontractor))     
+    )
+    addContr.click()
+
+
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='dataBase.png')
+    time.sleep(3)
+
+    header = ['Test Name', 'State']
+
+    #data
+    data = ['inviteContractor' 'Passed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+
+else:
+    header = ['Test Name', 'State']
+    data = ['inviteContractor' 'Failed']
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+    #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
+    
+finally:
+    #browser.quit()  
+    print('script done running.. on to the next, please check results to understand status of test..')  
+
+
+#Create Group
+time.sleep(10)
+
+browser.get(parameters.groupsLink)
+browser.maximize_window()
+
+try:
+    #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
+    elemCreateGroup = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.XPATH, paths.createGroup))     
+    )
+    elemCreateGroup.click()
+
+    
+
+    groupName = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.group_name))     
+    )
+    groupName.send_keys(parameters.groupName)
+
+    createGroup = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.createButton))     
+    )
+    createGroup.click()
+
+
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn.png')
+    time.sleep(3)
+
+    header = ['Test Name', 'State']
+
+    #data
+    data = ['Group Creation' 'Passed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+    print("Logged In As a Company/Admin Successfully")
+except:
+    elemCreateGroup = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.XPATH, paths.createGroupA))
+        # Take a screenshot of the Page and store it for analysis.
+    
+    )
+    elemCreateGroup.click()
+
+    groupName = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, paths.group_name))     
+    )
+    groupName.send_keys(parameters.groupName)
+
+    createGroup = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, paths.createButton))     
+    )
+    createGroup.click()
+
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn1.png')
+    time.sleep(3)
+
+    header = ['Test Name', 'State']
+
+    #data
+    data = ['Create Group' 'Passed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+    print("Logged In As a Company/Admin Successfully")
+
+    
+
+    print('Failed to Execute')
+else:
+    header = ['Test Name', 'State']
+    data = ['Create Group Button Click' 'Failed']
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(header)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+    #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
+    
+finally:
+    #browser.quit()  
+    print('script done running.. on to the next, please check results to understand status of test..')  
+
+
 
 
 
 
 
 time.sleep(3)
-
-
 
 # opening text file in read only mode
 file = open("./AutomationQA_Summary.csv", "r")
@@ -563,6 +798,13 @@ print(inMinutes)
 
 ms = timediff.total_seconds() * 1000
 print(f"Total time taken to execute the script is {ms} milliseconds")
+
+lines = [f"We have {word_count} test cases that passed.", f" Percentage pass-rate is '{percentageresult}' %" , f"The total time taken to execute the test cases is {timediff.total_seconds()} seconds"]
+with open('emailContent.txt', 'w') as f:
+    for line in lines:
+        f.write(line)
+        f.write('\n')
+
 
 
 sendEmail.emailLogin()
