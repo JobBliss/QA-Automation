@@ -1,3 +1,4 @@
+from asyncore import write
 import os
 import time
 import selenium
@@ -10,6 +11,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager as CM
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 from Screenshot import *
 import datetime
@@ -53,8 +56,7 @@ options.add_argument("--kiosk")
 
 browser = webdriver.Chrome(executable_path=CM().install(), options=options)
 #LoginToCompany
-browser.get(
-    'https://alpha.jobbliss.com/signin')
+browser.get(parameters.signinlink)
 
 print("[Info] - Logging in process in progress...")
     # emailAddress
@@ -95,67 +97,78 @@ try:
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn.png')
     time.sleep(3)
 
-    header = ['Test Name', 'State']
-
     #data
+    header = ['Test Case' 'State']
     data = ['Company Login' 'Passed']
 
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
-
-        #writer.writerow(header)
-
+        writer.writerow(header)
         writer.writerow(data)
 
         time.sleep(3)
     print("Logged In As a Company/Admin Successfully")
+except (NoSuchElementException, TimeoutException) as le:
+    print(le)
+    data = ['Company Login' 'Failed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(data)
+
+        time.sleep(3)
+
 finally:
     
-    print('Login Complete..Testing Uploading of Documents a Company...')  
+    print('Login Process Complete..Testing Uploading of Documents a Company...')  
 
 #Uploading Documents
+try:
+    clickdoc_button = WebDriverWait(browser, TIMEOUT).until(
+            EC.presence_of_element_located((
+                By.XPATH,
+                '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[6]/div/details/summary/span')))
 
-clickdoc_button = WebDriverWait(browser, TIMEOUT).until(
-         EC.presence_of_element_located((
-             By.XPATH,
-             '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[6]/div/details/summary/span')))
+    time.sleep(0.4)
 
-time.sleep(0.4)
+    clickdoc_button.click()
 
-clickdoc_button.click()
+    time.sleep(1)
 
-time.sleep(1)
+    docall_button = WebDriverWait(browser, TIMEOUT).until(
+            EC.presence_of_element_located((
+                By.XPATH,
+                '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[6]/div/details/div[1]/a/span')))
 
-docall_button = WebDriverWait(browser, TIMEOUT).until(
+    time.sleep(0.4)
+
+    docall_button.click()
+
+    upload_button = WebDriverWait(browser, TIMEOUT).until(
         EC.presence_of_element_located((
             By.XPATH,
-            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[6]/div/details/div[1]/a/span')))
+            '//*[@id="uploadFile"]')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-docall_button.click()
+    upload_button.click()
+    time.sleep(3)
 
-upload_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '//*[@id="uploadFile"]')))
+    pyautogui.write('C:\\Users\\anesu_velocityinc\\PycharmProjects\\Automations\\emailLogin.py')
 
-time.sleep(0.4)
+    time.sleep(3)
+    pyautogui.press('enter')
 
-upload_button.click()
-time.sleep(3)
+    time.sleep(5)
+    print('Document Uploaded Successfully!')
+    time.sleep(3)
+    print('Searching for uploaded document .........................')
+    #Locating uploaded document
+except (NoSuchElementException, TimeoutException):
+    print('Failed to upload document')
 
-pyautogui.write('C:\\Users\\anesu_velocityinc\\PycharmProjects\\Automations\\emailLogin.py')
 
-time.sleep(3)
-pyautogui.press('enter')
-
-time.sleep(5)
-print('Document Uploaded Successfully!')
-time.sleep(3)
-print('Searching for uploaded document .........................')
-#Locating uploaded document
-#
 try:
     search_element = WebDriverWait(browser, TIMEOUT).until(
         EC.presence_of_element_located((
@@ -191,7 +204,7 @@ try:
         writer = csv.writer(f)
         writer.writerow(data)
 
-except:
+except (NoSuchElementException, TimeoutException):
     search_element = WebDriverWait(browser, TIMEOUT).until(
         EC.presence_of_element_located((
             By.NAME, 'input_filter')))
@@ -229,96 +242,125 @@ except:
 
 
 finally:
-    print('Completed uploading of documents')
+    print('Completed uploading of documents process')
 
 
 #Adding Notes to a Contactractor or resource
 
 # # clickCompanyResources
 time.sleep(10)
-CompanyResources_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/summary/span')))
+try:
+    CompanyResources_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/summary/span')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-CompanyResources_button.click()
+    CompanyResources_button.click()
 
-time.sleep(1)
-#CompanyDatabase
-companyDb_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/div[1]/a/span')))
+    time.sleep(1)
+    #CompanyDatabase
+    companyDb_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/div[1]/a/span')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-companyDb_button.click()
+    companyDb_button.click()
 
-#searchPerson
+    #searchPerson
 
-searchPerson = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[2]/div/div/div[2]/div[1]/div[2]/div/div/input')))
-searchPerson.send_keys('Anesu')
-time.sleep(10)
-#viewProfile
-viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/div[2]/div/button')))
+    searchPerson = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[2]/div/div/div[2]/div[1]/div[2]/div/div/input')))
+    searchPerson.send_keys('Anesu')
+    time.sleep(10)
+    #viewProfile
+    viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/div[2]/div/button')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-viewprofile_button.click()
-time.sleep(3)
+    viewprofile_button.click()
+    time.sleep(3)
 
-#
+    #
 
-notesTab = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[2]/div[2]/div/nav/a[6]')))
+    notesTab = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[2]/div[2]/div/nav/a[6]')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-notesTab.click()
-time.sleep(3)
+    notesTab.click()
+    time.sleep(3)
 
-#AddNotes Button Click
-addNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[1]/div/div/button')))
-addNotes_button.click()
+    #AddNotes Button Click
+    addNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[1]/div/div/button')))
+    addNotes_button.click()
 
-image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
-time.sleep(3)
-#screenshot = Image.open('addNotes.png')
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
+    time.sleep(3)
+    #screenshot = Image.open('addNotes.png')
 
-#Write the notes.
-NotesWrite = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.ID, 'newNote')))
+    #Write the notes.
+    NotesWrite = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.ID, 'newNote')))
 
-NotesWrite.send_keys('Imweo Information Here!')
+    NotesWrite.send_keys('Imweo Information Here!')
 
-addNote_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.ID, 'addNote')))
-addNote_button.click()
+    addNote_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.ID, 'addNote')))
+    addNote_button.click()
 
-time.sleep(3)
-print('notes Written Successfully!')
-time.sleep(3)
+    time.sleep(3)
+    print('notes Written Successfully!')
+    time.sleep(3)
+except (NoSuchElementException, TimeoutException):
+    data = ['Write Notes' 'Failed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+        time.sleep(3)
 
 #Delete note
-DeleteNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[3]/div[2]/div/a[2]/p')))
-DeleteNotes_button.click()
+try:
+    DeleteNotes_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[3]/div/div/div/div[3]/div[2]/div/a[2]/p')))
+    DeleteNotes_button.click()
 
-image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
-time.sleep(3)
-#screenshot = Image.open('addNotes.png')
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='addNotes.png')
+    time.sleep(3)
+    #screenshot = Image.open('addNotes.png')
 
-#Write the notes.
-confirmDeleteNotes = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="vueConfirm"]/div/div/button[2]')))
-confirmDeleteNotes.click()
-    
+    #Write the notes.
+    confirmDeleteNotes = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="vueConfirm"]/div/div/button[2]')))
+    confirmDeleteNotes.click()
+        
 
-time.sleep(4)
+    time.sleep(4)
+    data = ['Delete Notes' 'Passed']
 
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        
+
+        writer.writerow(data)
+
+        time.sleep(3)
+
+except (NoSuchElementException, TimeoutException):
+    data = ['Delete Notes' 'Failed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(data)
+
+        time.sleep(3)
 # clickCompanyResources
 
 # CompanyResources_button = WebDriverWait(browser, TIMEOUT).until(
@@ -332,61 +374,69 @@ time.sleep(4)
 
 time.sleep(1)
 #CompanyDatabase
-companyDb_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/div[1]/a/span')))
+try:
+    companyDb_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[2]/div/details/div[1]/a/span')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-companyDb_button.click()
+    companyDb_button.click()
 
-viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/div[2]/div/button')))
+    viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/div[2]/div/button')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-viewprofile_button.click()
-time.sleep(3)
+    viewprofile_button.click()
+    time.sleep(3)
 
-#Remove Contractor From Company
+    #Remove Contractor From Company
 
-removefromCo_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[1]/div/button')))
+    removefromCo_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[1]/div/button')))
 
-time.sleep(0.4)
+    time.sleep(0.4)
 
-removefromCo_button.click()
-time.sleep(3)
+    removefromCo_button.click()
+    time.sleep(3)
 
-#ConfirmRemove
-confirm_remove_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[3]/div/div[2]/form/div[1]/div[3]/div[2]/div/button')))
-confirm_remove_button.click()
+    #ConfirmRemove
+    confirm_remove_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[3]/div/div[2]/form/div[1]/div[3]/div[2]/div/button')))
+    confirm_remove_button.click()
 
-image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='removeContractorFromCompany.png')
-time.sleep(3)
-screenshot = Image.open('removeContractorFromCompany.png')
-#Log in CSV
-eader = ['Test Name', 'State']
+    image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='removeContractorFromCompany.png')
+    time.sleep(3)
+    screenshot = Image.open('removeContractorFromCompany.png')
+    #Log in CSV
+    eader = ['Test Name', 'State']
 
-#data
-data = ['Remove Contractor From Company' 'Passed']
+    #data
+    data = ['Remove Contractor From Company' 'Passed']
 
-with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
 
-    #writer.writerow(header)
+        writer.writerow(data)
 
-    writer.writerow(data)
+    time.sleep(3)
+    print('Contractor removed Successfully!')
 
-time.sleep(3)
-print('Contractor removed Successfully!')
+    time.sleep(3)
+except (NoSuchElementException, TimeoutException):
+    data = ['Remove Contractor From Company' 'Failed']
 
-time.sleep(3)
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(data)
+
+    time.sleep(3)
 
 #Switch Package
 
@@ -439,7 +489,6 @@ try:
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn.png')
     time.sleep(3)
 
-    header = ['Test Name', 'State']
 
     #data
     data = ['Switch Subscription Package' 'Passed']
@@ -447,78 +496,99 @@ try:
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
-        #writer.writerow(header)
+        
 
         writer.writerow(data)
 
         time.sleep(3)
+
+except (NoSuchElementException, TimeoutException):
+    #data
+    data = ['Switch Subscription Package' 'Failed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+        time.sleep(3)
+
 finally:
     print('Done')
+
+
 # clickManage
+try:
+    clickManage_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/summary/span')))
 
-clickManage_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/summary/span')))
+    time.sleep(0.4)
 
-time.sleep(0.4)
+    clickManage_button.click()
 
-clickManage_button.click()
+    time.sleep(1)
+    #Managers
+    manager_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/div[1]')))
 
-time.sleep(1)
-#Managers
-manager_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/nav/div[4]/div/details/div[1]')))
+    time.sleep(0.4)
 
-time.sleep(0.4)
+    manager_button.click()
+    searchManager = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,paths.searchmanagerfilter)))
+    searchManager.send_keys('Anesu')
+    time.sleep(5)
 
-manager_button.click()
+    viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/a/div/div/button/span')))
 
-viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '//*[@id="app"]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/a/div/div/button/span')))
+    time.sleep(0.4)
 
-time.sleep(0.4)
-
-viewprofile_button.click()
-time.sleep(3)
-
-disableprofile_button = WebDriverWait(browser, TIMEOUT).until(
-    EC.presence_of_element_located((
-        By.XPATH,
-        '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[1]/div/button')))
-
-time.sleep(0.4)
-
-disableprofile_button.click()
-time.sleep(3)
-#ConfirmDisable
-confirm_disable_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
-confirm_disable_button.click()
-
-# DeleteManager
-deleteMgr_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
-    (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[2]/div/button')))
-deleteMgr_button.click()
-
-# DeleteManagerConfirm
-deleteMgrConfirm_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
-    (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
-deleteMgrConfirm_button.click()
-
-data = ['Delete Manager' 'Passed']
-
-with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-
-    #writer.writerow(header)
-
-    writer.writerow(data)
-
+    viewprofile_button.click()
     time.sleep(3)
+
+    disableprofile_button = WebDriverWait(browser, TIMEOUT).until(
+        EC.presence_of_element_located((
+            By.XPATH,
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[1]/div/button')))
+
+    time.sleep(0.4)
+
+    disableprofile_button.click()
+    time.sleep(3)
+    #ConfirmDisable
+    confirm_disable_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
+    confirm_disable_button.click()
+
+    # DeleteManager
+    deleteMgr_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[2]/div/button')))
+    deleteMgr_button.click()
+
+    # DeleteManagerConfirm
+    deleteMgrConfirm_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
+    deleteMgrConfirm_button.click()
+
+    data = ['Delete Manager' 'Passed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+        time.sleep(3)
+except(NoSuchElementException, TimeoutException):
+    data = ['Delete Manager' 'Failed']
+
+    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+        time.sleep(3)
 
 #Invite Contractor/Company Database
 
@@ -532,8 +602,6 @@ try:
     )
     elemupload.click()
 
-    
-
     emailCont = WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.NAME, paths.emailContractor))     
     )
@@ -557,29 +625,21 @@ try:
 
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='dataBase.png')
     time.sleep(3)
-
-    header = ['Test Name', 'State']
-
     #data
     data = ['inviteContractor' 'Passed']
 
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
-
-        writer.writerow(header)
-
         writer.writerow(data)
 
         time.sleep(3)
 #catch exception
 except:
-    #try this block first
+    #now try this block 
     elemupload = WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.ID, paths.uploadContractor))     
     )
     elemupload.click()
-
-    
 
     emailCont = WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.NAME, paths.emailContractor))     
@@ -607,27 +667,19 @@ except:
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='dataBase.png')
     time.sleep(3)
 
-    header = ['Test Name', 'State']
-
     #data
     data = ['inviteContractor' 'Passed']
 
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
-
-        writer.writerow(header)
-
         writer.writerow(data)
-
         time.sleep(3)
 
 else:
-    header = ['Test Name', 'State']
+    
     data = ['inviteContractor' 'Failed']
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
-
-        writer.writerow(header)
 
         writer.writerow(data)
 
@@ -643,7 +695,6 @@ finally:
 time.sleep(10)
 
 browser.get(parameters.groupsLink)
-browser.maximize_window()
 
 try:
     #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
@@ -651,8 +702,6 @@ try:
         EC.presence_of_element_located((By.XPATH, paths.createGroup))     
     )
     elemCreateGroup.click()
-
-    
 
     groupName = WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.NAME, paths.group_name))     
@@ -668,15 +717,12 @@ try:
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn.png')
     time.sleep(3)
 
-    header = ['Test Name', 'State']
 
     #data
     data = ['Group Creation' 'Passed']
 
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
-
-        writer.writerow(header)
 
         writer.writerow(data)
 
@@ -703,7 +749,6 @@ except:
     image = fscreenshot.full_Screenshot(browser, save_path=r'.', image_name='CompanyLoggedIn1.png')
     time.sleep(3)
 
-    header = ['Test Name', 'State']
 
     #data
     data = ['Create Group' 'Passed']
@@ -711,23 +756,18 @@ except:
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
-        writer.writerow(header)
-
         writer.writerow(data)
 
         time.sleep(3)
     print("Logged In As a Company/Admin Successfully")
 
-    
-
     print('Failed to Execute')
 else:
-    header = ['Test Name', 'State']
+    
     data = ['Create Group Button Click' 'Failed']
     with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
-        writer.writerow(header)
 
         writer.writerow(data)
 
@@ -737,11 +777,6 @@ else:
 finally:
     #browser.quit()  
     print('script done running.. on to the next, please check results to understand status of test..')  
-
-
-
-
-
 
 
 time.sleep(3)
