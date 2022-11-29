@@ -4,6 +4,7 @@ import time
 import selenium
 import pyautogui
 import logging
+import infofeedtest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -57,7 +58,7 @@ options.add_argument("--kiosk")
 
 browser = webdriver.Chrome(executable_path=CM().install(), options=options)
 #LoginToCompany
-browser.get(parameters.signinlink)
+browser.get(parameters.prodsigninlink)
 
 print("[Info] - Logging in process in progress...")
     # emailAddress
@@ -65,7 +66,7 @@ user_element = WebDriverWait(browser, TIMEOUT).until(
     EC.presence_of_element_located((
         By.NAME, 'email')))
 
-user_element.send_keys(USERNAME)
+user_element.send_keys(parameters.adminUsername)
 
 #time.sleep(5)
 
@@ -74,7 +75,7 @@ user_element.send_keys(USERNAME)
 passWed = browser.find_element(By.XPATH, '//input[@id="password"]')
 
 #pass_element.send_keys(PASSWORD)
-passWed.send_keys(PASSWORD)
+passWed.send_keys(parameters.adminPass)
 
 login_button = WebDriverWait(browser, TIMEOUT).until(
     EC.presence_of_element_located((
@@ -86,7 +87,7 @@ login_button.click()
 
 time.sleep(10)
 
-browser.get('https://alpha.jobbliss.com/dashboard')
+browser.get('https://app.jobbliss.com/dashboard')
 try:
     #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
     elem = WebDriverWait(browser, 10).until(
@@ -98,10 +99,11 @@ try:
     time.sleep(3)
 
     #data
-    header = ['Test Case','State']
-    data = ['Company Login','Passed']
+    header = ['Test Case','State','Date']
+    timenow=datetime.datetime.now()
+    data = ['Company Login','Passed',{timenow}]
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         writer.writerow(data)
@@ -110,9 +112,9 @@ try:
     print("Logged In As a Company/Admin Successfully")
 except (NoSuchElementException, TimeoutException) as le:
     print(le)
-    data = ['Company Login','Failed']
+    data = ['Company Login','Failed',{datetime.datetime.now()}]
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -164,20 +166,21 @@ try:
     print('Document Uploaded Successfully!')
     time.sleep(3)
     print('Searching for uploaded document .........................')
-    data = ['Upload_Document','Passed']
+    #data = ['Upload_Document','Passed',{datetime.datetime.now()}]
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
 
         time.sleep(3)
-    #Locating uploaded document
+    #Locating uploaded documentC:\Users\anesu_velocityinc\PycharmProjects\Automations\emailLogin.py
+
 except (NoSuchElementException, TimeoutException):
     print('Failed to upload document')
     data = ['Upload_Document','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -216,7 +219,7 @@ try:
     #data
     data = ['Upload_Document','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -251,7 +254,7 @@ except (NoSuchElementException, TimeoutException):
     #data
     data = ['Upload_Document', 'Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -289,7 +292,7 @@ try:
     #searchPerson
 
     searchPerson = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/div[2]/div[2]/div/div[2]/div/div/div[2]/div[1]/div[2]/div/div/input')))
-    searchPerson.send_keys('Anesu')
+    searchPerson.send_keys('StriveTWO Contractor')
     time.sleep(10)
     #viewProfile
     viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
@@ -307,7 +310,7 @@ try:
     notesTab = WebDriverWait(browser, TIMEOUT).until(
         EC.presence_of_element_located((
             By.XPATH,
-            '//*[@id="6b827f22-65e8-464e-a9a0-9e6c9f6876f3"]/div/div/div/div[2]/div[2]/div/nav/a[6]')))
+            '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[2]/div[2]/div/nav/a[6]')))
 
     time.sleep(0.4)
 
@@ -332,11 +335,18 @@ try:
 
     time.sleep(3)
     print('notes Written Successfully!')
+    data = ['Write_Notes','Passed']
+
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
     time.sleep(3)
+
 except (NoSuchElementException, TimeoutException):
     data = ['Write_Notes','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -359,7 +369,7 @@ try:
     time.sleep(4)
     data = ['Delete_Notes','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         
@@ -371,7 +381,7 @@ try:
 except (NoSuchElementException, TimeoutException):
     data = ['Delete_Notes','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -434,7 +444,7 @@ try:
     #data
     data = ['Remove_Contractor_From_Company','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -446,7 +456,7 @@ try:
 except (NoSuchElementException, TimeoutException):
     data = ['Remove_Contractor_From_Company','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -455,7 +465,7 @@ except (NoSuchElementException, TimeoutException):
 
 #Switch Package
 
-browser.get('https://alpha.jobbliss.com/dashboard')
+browser.get('https://app.jobbliss.com/dashboard')
 
 try:
     #check if we have actually got in on the site since you can not access dashboard without logging in. Element to be located is the dashbord text "Dashboard"
@@ -506,7 +516,7 @@ try:
     #data
     data = ['Switch Subscription Package','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         
@@ -519,7 +529,7 @@ except (NoSuchElementException, TimeoutException):
     #data
     data = ['Switch Subscription Package','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -551,7 +561,7 @@ try:
 
     manager_button.click()
     searchManager = WebDriverWait(browser,TIMEOUT).until(EC.presence_of_element_located((By.XPATH,paths.searchmanagerfilter)))
-    searchManager.send_keys('Anesu')
+    searchManager.send_keys('Tyler Prod Manager')
     time.sleep(5)
 
     viewprofile_button = WebDriverWait(browser, TIMEOUT).until(
@@ -576,12 +586,12 @@ try:
     #ConfirmDisable
     confirm_disable_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
     confirm_disable_button.click()
-
+    time.sleep(5)
     # DeleteManager
     deleteMgr_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
         (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/main/section/div/div/div/div[1]/div/div[2]/div[2]/div/button')))
     deleteMgr_button.click()
-
+    time.sleep(5)
     # DeleteManagerConfirm
     deleteMgrConfirm_button = WebDriverWait(browser, TIMEOUT).until(EC.presence_of_element_located(
         (By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div/div/div/div[1]/div/div/button[2]')))
@@ -589,7 +599,7 @@ try:
 
     data = ['Delete_Manager','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -597,7 +607,7 @@ try:
 except(NoSuchElementException, TimeoutException):
     data = ['Delete_Manager','Failed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -605,7 +615,7 @@ except(NoSuchElementException, TimeoutException):
 
 #Invite Contractor/Company Database
 
-browser.get(parameters.dbview)
+browser.get(parameters.proddbview)
 browser.maximize_window()
 
 try:
@@ -641,7 +651,7 @@ try:
     #data
     data = ['inviteContractor','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
 
@@ -683,7 +693,7 @@ except:
     #data
     data = ['inviteContractor','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(data)
         time.sleep(3)
@@ -691,7 +701,7 @@ except:
 else:
     
     data = ['inviteContractor','Failed']
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -734,7 +744,7 @@ try:
     #data
     data = ['GroupCreation','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -766,7 +776,7 @@ except:
     #data
     data = ['Create_Group','Passed']
 
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         writer.writerow(data)
@@ -778,7 +788,7 @@ except:
 else:
     
     data = ['Create Group Button Click','Failed']
-    with open('AutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
+    with open('prodAutomationQA_Summary.csv','a',encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
 
@@ -795,7 +805,7 @@ finally:
 time.sleep(3)
 
 # opening text file in read only mode
-file = open("./AutomationQA_Summary.csv", "r")
+file = open("./prodAutomationQA_Summary.csv", "r")
 
 
 # reading data of the file
@@ -808,7 +818,7 @@ print(per_word)
 
 num_rows = 0
 
-for row in open("./AutomationQA_Summary.csv"):
+for row in open("./prodAutomationQA_Summary.csv"):
     num_rows += 1
 
 
@@ -847,21 +857,11 @@ print(inMinutes)
 ms = timediff.total_seconds() * 1000
 print(f"Total time taken to execute the script is {inMinutes} minutes")
 
-lines = [f"We have {word_count} test cases that passed.", f" Percentage pass-rate is '{percentageresult}' %" , f"The total time taken to execute the test cases is {timediff.total_seconds()} seconds"]
+lines = [f"We have {word_count} test cases that passed.", f" Percentage pass-rate is '{percentageresult}' %" , f"The total time taken to execute the test cases is {inMinutes} seconds"]
 with open('emailContent.txt', 'w') as f:
     for line in lines:
         f.write(line)
         f.write('\n')
 
-
-
-sendEmail.emailLogin()
+infofeedtest.results()
 renderResults.renderresults()
-
-
-
-
-
-
-
-
