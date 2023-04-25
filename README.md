@@ -1,33 +1,40 @@
-# QA-Automation
-Automation of some of our test cases
+# QA Automation Command Center
 
-Check out the requirements file to see the dependencies of the files to run.
-To generate the requirements.txt file you can always use the following command:
+*We are Velocity Inc. , we use Automation Command Center.*
 
-pip3 freeze > requirements.txt
 
---------------------------------------------------
+## Installation
 
-## Running the scripts
+clone:
+```
+$ git 
+$ cd qaCommandCenter
+```
+create & activate virtual env then install dependency:
 
-**Scripts contained:**
-Uploading Documents Script : - it will login and then move to the documents pane and then uplaod a document as per the test case requirement. 
+with venv/virtualenv + pip:
+```
+$ python -m venv env  # use `virtualenv env` for Python2, use `python3 ...` for Python3 on Linux & macOS
+$ source env/bin/activate  # use `env\Scripts\activate` on Windows
+$ pip install -r requirements.txt
+```
+or with Pipenv:
+```
+$ pipenv install --dev
+$ pipenv shell
+```
+init database then run:
+```
+$ flask initdb
+$ flask run
 
-_py uploadDocument.py_
+Aleternatively:
+$ python -m flask initdb
+$ python -m flask run
+* Running on http://127.0.0.1:5000/
+```
 
-**The log should show that the document was uploaded successsfully.**
+## License
 
-Loginto Jobliss:-
-1. As a manager - _py ManagerLogin.py_
-2. As a contractor - _py ContractorLogin.py_
-3. As a company/admin - _py LoginToJobbliss.py_
-
-**Creating a company account:-**
-_CreateCompany.py_
-
-**Invite Manager:**
-
-A Company is the only entity that can invite a Manager:
-
-_py InviteManager.py_
-
+This project is licensed under the MIT License (see the
+[LICENSE](LICENSE) file for details).
