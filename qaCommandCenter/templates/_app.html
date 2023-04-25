@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <header class="row">
+        <b>Note:</b>
+        <p>To run test cases click on "Run" button. All test case results will be on the results summary page. To Access the results summary page click on the top left icon and select "Results Summary"</p>
+    </header>
+    <hr stye="margin-top:1%"></hr>
+    <div class="row" style="align-content:center" id="dashboard">
+        <div class="col l9 m12 s12">
+            <ul class="tabs">
+                <li class="tab col m4 s12">
+                    <a class="blue-text button" id="all-item">
+                        {{ _('Initiate Tests') }} <span class="grey-text small-text" id="all-count"></span>
+                    </a>
+                </li>
+                <li class="tab col m4 s12">
+                    <a class="blue-text button" id="active-item">
+                        {{ _('Running Tests') }} <span class="grey-text small-text" id="active-count">
+<!--                        {{ active_count }}-->
+                    </span>
+                    </a>
+                </li>
+                <li class="tab col m4 s12">
+                    <a class="blue-text button" id="completed-item">
+                        {{ _('Done') }} <span class="grey-text small-text"
+                                              id="completed-count">{{ completed_count }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+<!--        <div class="col l3 hide-on-med-and-down">-->
+<!--            <a class="waves-effect waves-light btn red right" id="clear-btn">-->
+<!--                <i class="material-icons left">clear_all</i>Clear-->
+<!--            </a>-->
+<!--        </div>-->
+    </div>
+
+    <div class="items">
+        <div class="row item card-panel" data-body="Company Flow">
+    <span class="item-body">
+        Company Flow
+    </span>
+
+        <a class="waves-effect waves-light btn green right" href="/companyflow">Run Test</a>
+</div>
+
+<div class="row item card-panel "  data-body="Managers Flow">
+    <span class="item-body">
+        Managers Flow
+    </span>
+        <a class="waves-effect waves-light btn green right" href="/managerflow">Run Test</a>
+</div>
+
+<div class="row item card-panel hoverable"
+      data-body="Contractor Flow">
+    <span class="item-body">
+        Contractor Flow
+    </span>
+        <a class="waves-effect waves-light btn blue green right" href="/contractor">Run Test</a>
+</div>
+
+
+<div class="row item card-panel "
+      data-body="Contractor Flow">
+    <span class="item-body">
+        Check Broken Links
+    </span>
+        <a class="waves-effect waves-light btn green right" href="/brokenlinks">Run Test</a>
+</div>
+<!--        {% for item in items %}-->
+<!--            {% include '_item.html' %}-->
+<!--        {% endfor %}-->
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+[
+    {
+        "testCase": "Upload_Document",
+        "State": "Failed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Upload_Document",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Write_Notes",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Delete_Notes",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Remove_Contractor_From_Company",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Switch Subscription Package",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Delete_Manager",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Manager Login",
+        "State": "Passed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Upload_Document",
+        "State": "Failed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Manager Login",
+        "State": "Failed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    },
+    {
+        "testCase": "Upload_Document",
+        "State": "Failed",
+        "Date": "Thu 4 Nov 2022",
+        "projectName": "Jobbliss"
+    }
+]

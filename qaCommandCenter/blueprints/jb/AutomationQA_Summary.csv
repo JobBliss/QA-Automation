@@ -1,0 +1,27 @@
+Test Case,State
+Company Login,Passed
+Upload_Document,Passed
+Upload_Document,Passed
+Write_Notes,Failed
+Delete_Notes,Failed
+Remove_Contractor_From_Company,Passed
+Switch Subscription Package,Passed
+Delete_Manager,Passed
+Test Case,State
+Company Login,Passed
+Upload_Document,Passed
+Upload_Document,Passed
+Delete_Notes,Passed
+Remove_Contractor_From_Company,Passed
+Switch Subscription Package,Passed
+Delete_Manager,Passed
+Test Case,State
+Company Login,Passed
+Upload_Document,Passed
+Upload_Document,Passed
+Delete_Notes,Passed
+Remove_Contractor_From_Company,Passed
+Switch Subscription Package,Passed
+Delete_Manager,Passed
+inviteContractor,Passed
+inviteContractor,Failed

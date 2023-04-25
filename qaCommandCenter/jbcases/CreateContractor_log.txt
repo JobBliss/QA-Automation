@@ -1,0 +1,38 @@
+2022-10-20 10:43:51,133 ====== WebDriver manager ======
+2022-10-20 10:43:51,737 Get LATEST chromedriver version for google-chrome 106.0.5249
+2022-10-20 10:43:51,740 Starting new HTTPS connection (1): chromedriver.storage.googleapis.com:443
+2022-10-20 10:43:52,570 https://chromedriver.storage.googleapis.com:443 "GET /LATEST_RELEASE_106.0.5249 HTTP/1.1" 200 13
+2022-10-20 10:43:53,140 Driver [C:\Users\anesu_velocityinc\.wdm\drivers\chromedriver\win32\106.0.5249\chromedriver.exe] found in cache
+2022-10-20 10:43:53,670 POST http://localhost:49177/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "pageLoadStrategy": "normal", "goog:chromeOptions": {"extensions": [], "args": ["--no-sandbox", "--log-level=3", "--kiosk"]}}}}
+2022-10-20 10:43:53,671 Starting new HTTP connection (1): localhost:49177
+2022-10-20 10:43:54,589 http://localhost:49177 "POST /session HTTP/1.1" 200 794
+2022-10-20 10:43:54,590 Remote response: status=200 | data={"value":{"capabilities":{"acceptInsecureCerts":false,"browserName":"chrome","browserVersion":"106.0.5249.119","chrome":{"chromedriverVersion":"106.0.5249.61 (511755355844955cd3e264779baf0dd38212a4d0-refs/branch-heads/5249@{#569})","userDataDir":"C:\\Users\\ANESU_~1\\AppData\\Local\\Temp\\scoped_dir17864_1304451532"},"goog:chromeOptions":{"debuggerAddress":"localhost:49180"},"networkConnectionEnabled":false,"pageLoadStrategy":"normal","platformName":"windows","proxy":{},"setWindowRect":true,"strictFileInteractability":false,"timeouts":{"implicit":0,"pageLoad":300000,"script":30000},"unhandledPromptBehavior":"dismiss and notify","webauthn:extension:credBlob":true,"webauthn:extension:largeBlob":true,"webauthn:virtualAuthenticators":true},"sessionId":"6bf5621225426ecd1a8fb91fa5fbf37c"}} | headers=HTTPHeaderDict({'Content-Length': '794', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:43:54,590 Finished Request
+2022-10-20 10:43:54,590 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/url {"url": "https://alpha.jobbliss.com/forgot-password"}
+2022-10-20 10:44:21,184 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/url HTTP/1.1" 200 14
+2022-10-20 10:44:21,184 Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:21,184 Finished Request
+2022-10-20 10:44:21,184 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/window/maximize {}
+2022-10-20 10:44:21,553 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/window/maximize HTTP/1.1" 200 51
+2022-10-20 10:44:21,554 Remote response: status=200 | data={"value":{"height":736,"width":1382,"x":-8,"y":-8}} | headers=HTTPHeaderDict({'Content-Length': '51', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:21,554 Finished Request
+2022-10-20 10:44:21,563 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/element {"using": "css selector", "value": "[id=\"email\"]"}
+2022-10-20 10:44:21,585 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/element HTTP/1.1" 200 88
+2022-10-20 10:44:21,585 Remote response: status=200 | data={"value":{"element-6066-11e4-a52e-4f735466cecf":"8b7955a1-cfbc-4797-a43e-0f1a027c1b4b"}} | headers=HTTPHeaderDict({'Content-Length': '88', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:21,585 Finished Request
+2022-10-20 10:44:21,586 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/element/8b7955a1-cfbc-4797-a43e-0f1a027c1b4b/value {"text": "anesu+contractor@velocityinc.tech", "value": ["a", "n", "e", "s", "u", "+", "c", "o", "n", "t", "r", "a", "c", "t", "o", "r", "@", "v", "e", "l", "o", "c", "i", "t", "y", "i", "n", "c", ".", "t", "e", "c", "h"], "id": "8b7955a1-cfbc-4797-a43e-0f1a027c1b4b"}
+2022-10-20 10:44:21,828 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/element/8b7955a1-cfbc-4797-a43e-0f1a027c1b4b/value HTTP/1.1" 200 14
+2022-10-20 10:44:21,829 Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:21,829 Finished Request
+2022-10-20 10:44:31,845 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/element {"using": "xpath", "value": "//*[@id=\"app\"]/div/div/div/div[2]/div[2]/div/span/form/div[1]/div/button"}
+2022-10-20 10:44:31,881 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/element HTTP/1.1" 200 88
+2022-10-20 10:44:31,882 Remote response: status=200 | data={"value":{"element-6066-11e4-a52e-4f735466cecf":"89bcfc25-29d2-471c-b586-f7ebcdbb0098"}} | headers=HTTPHeaderDict({'Content-Length': '88', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:31,882 Finished Request
+2022-10-20 10:44:31,882 POST http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c/element/89bcfc25-29d2-471c-b586-f7ebcdbb0098/click {"id": "89bcfc25-29d2-471c-b586-f7ebcdbb0098"}
+2022-10-20 10:44:32,238 http://localhost:49177 "POST /session/6bf5621225426ecd1a8fb91fa5fbf37c/element/89bcfc25-29d2-471c-b586-f7ebcdbb0098/click HTTP/1.1" 200 14
+2022-10-20 10:44:32,238 Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:32,238 Finished Request
+2022-10-20 10:44:37,255 DELETE http://localhost:49177/session/6bf5621225426ecd1a8fb91fa5fbf37c {}
+2022-10-20 10:44:37,484 http://localhost:49177 "DELETE /session/6bf5621225426ecd1a8fb91fa5fbf37c HTTP/1.1" 200 14
+2022-10-20 10:44:37,486 Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2022-10-20 10:44:37,486 Finished Request
