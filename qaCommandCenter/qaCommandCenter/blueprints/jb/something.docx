@@ -1,0 +1,12 @@
+
+
+In linguistics, a corpus or text corpus is a language resource consisting of a large and structured set of texts. In corpus linguistics, they are used to do statistical analysis and hypothesis testing, checking occurrences or validating linguistic rules within a specific language territory
+
+The WikiQA corpus is a publicly available set of question and sentence pairs, collected and annotated for research on open-domain question answering. In order to reflect the true information need of general users, Bing query logs were used as the question source. Each question is linked to a Wikipedia page that potentially has the answer. Because the summary section of a Wikipedia page provides the basic and usually most important information about the topic, sentences in this section were used as the candidate answers. The corpus includes 3,047 questions and 29,258 sentences, where 1,473 sentences were labeled as answer sentences to their corresponding questions.
+
+Why are we using the WikiQA?
+
+Updates with information being made available on the base of Wiki. 
+
+
+What's the 

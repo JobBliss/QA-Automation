@@ -2,7 +2,7 @@ from asyncore import write
 import os
 import time
 import selenium
-import pyautogui
+#import pyautogui
 import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -55,7 +55,7 @@ def companyflow():
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     # options.add_argument("--kiosk")
 
     browser = webdriver.Chrome(executable_path=CM().install(), options=options)
@@ -157,10 +157,10 @@ def companyflow():
         upload_button.click()
         time.sleep(3)
 
-        pyautogui.write('C:\\Users\\anesu_velocityinc\\PycharmProjects\\Automations\\emailLogin.py')
+       # pyautogui.write('C:\\Users\\anesu_velocityinc\\PycharmProjects\\Automations\\emailLogin.py')
 
         time.sleep(3)
-        pyautogui.press('enter')
+        #pyautogui.press('enter')
 
         time.sleep(5)
         print('Document Uploaded Successfully!')

@@ -8,8 +8,7 @@
 from functools import wraps
 
 from flask import g, current_app, request
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
-
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from qaCommandCenter.apis.v1.errors import api_abort, invalid_token, token_missing
 from qaCommandCenter.models import User
 

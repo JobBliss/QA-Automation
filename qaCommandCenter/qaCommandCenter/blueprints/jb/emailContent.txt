@@ -1,0 +1,3 @@
+We have 9 test cases that passed.
+ Percentage pass-rate is '90.0' %
+The total time taken to execute the test cases is 272.014052 seconds
