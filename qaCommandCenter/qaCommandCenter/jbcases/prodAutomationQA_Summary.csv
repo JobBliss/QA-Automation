@@ -1,0 +1,28 @@
+testCase,State,Date,projectName
+Upload_Document,Failed,Thu 4 Nov 2022,Jobbliss
+Upload_Document,Passed,Thu 4 Nov 2022,Jobbliss
+Write_Notes,Passed,Thu 4 Nov 2022,Jobbliss
+Delete_Notes,Passed,Thu 4 Nov 2022,Jobbliss
+Remove_Contractor_From_Company,Passed,Thu 4 Nov 2022,Jobbliss
+Switch Subscription Package,Passed,Thu 4 Nov 2022,Jobbliss
+Delete_Manager,Passed,Thu 4 Nov 2022,Jobbliss
+Manager Login,Passed,Thu 4 Nov 2022,Jobbliss
+Upload_Document,Failed,Thu 4 Nov 2022,Jobbliss
+Manager Login,Failed,Thu 4 Nov 2022,Jobbliss
+Upload_Document,Failed,Thu 4 Nov 2022,Jobbliss
+Test Case,State,Date
+Manager Login,Passed,Thu 1 Dec 2022
+Upload_Document,Failed,Thu 1 Dec 2022
+Test Case,State,Date
+Manager Login,Passed,Thu 1 Dec 2022
+Upload_Document,Passed,Thu 1 Dec 2022
+Upload_Document,Passed,Thu 1 Dec 2022
+Test Case,State,Date
+Manager Login,Passed,Thu 1 Dec 2022
+Upload_Document,Passed,Thu 1 Dec 2022
+Upload_Document,Passed,Thu 1 Dec 2022
+Write_Notes,Passed,Thu 1 Dec 2022
+Delete_Notes,Passed,Thu 1 Dec 2022
+Remove_Contractor_From_Company,Passed,Thu 1 Dec 2022
+Switch Subscription Package,Passed,Thu 1 Dec 2022
+Delete_Manager,Passed,Thu 1 Dec 2022

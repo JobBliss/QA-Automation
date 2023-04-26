@@ -26,7 +26,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@babel.localeselector
+#@babel.localeselector
 def get_locale():
     if current_user.is_authenticated and current_user.locale is not None:
         return current_user.locale
