@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: copy
         run: |
-          cp -r /qaCommandCenter 3.212.45.1:/data/QA-Automation/
+          pwd
+          #cp -r /qaCommandCenter 3.212.45.1:/data/QA-Automation/
       - name: run-app
         run: |
           cd /data/QA-Automation/qaCommandCenter
