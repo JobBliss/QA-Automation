@@ -1,0 +1,20 @@
+name: build
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+jobs:
+  build:
+    name: copy
+    runs-on: ubuntu:latest
+    steps:
+      - name: copy
+        run: |
+          cp -r * 3.212.45.1:/data/QA-Automation/
+      - name: run-app
+        run: |
+          cd /data/QA-Automation/qaCommandCenter
+          python -m flask run --host=0.0.0.0 --port=5000
+
