@@ -13,7 +13,7 @@ jobs:
       - name: copy
         run: |
           pwd
-          cp -r /home/runner/work/QA-Automation/qaCommandCenter 3.212.45.1:/data/QA-Automation/
+          cp -r /QA-Automation/qaCommandCenter 3.212.45.1:/data/QA-Automation/
       - name: run-app
         run: |
           cd /data/QA-Automation/qaCommandCenter
