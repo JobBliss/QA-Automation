@@ -8,7 +8,7 @@ on: [push]
 jobs:
   build:
     name: copy
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: copy
         run: |
