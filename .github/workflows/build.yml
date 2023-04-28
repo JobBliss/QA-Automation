@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@master
       - name: copy
         run: |
-          cp -r /QA-Automation/ /data/QA-Automation/
+          cp -r QA-Automation/ /data/QA-Automation/
       - name: run-app
         run: |
           cd /data/QA-Automation/qaCommandCenter
