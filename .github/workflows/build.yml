@@ -15,7 +15,7 @@ jobs:
       - name: copy
         run: |
           pwd
-          cp -r /home/ubuntu/actions-runner/points-africa/QA-Automation/QA-Automation /data/QA-Automation/
+          sudo cp -r /home/ubuntu/actions-runner/points-africa/QA-Automation/QA-Automation /data
       - name: run-app
         run: |
           cd /data/QA-Automation/qaCommandCenter
