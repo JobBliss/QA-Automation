@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: copy
         run: |
-          cp -r /qaCommandCenter/ /data/QA-Automation/
+          cp -r ../qaCommandCenter/ /data/QA-Automation/
       - name: run-app
         run: |
           cd /data/QA-Automation/qaCommandCenter
