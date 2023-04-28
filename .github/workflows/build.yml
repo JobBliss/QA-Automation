@@ -20,5 +20,6 @@ jobs:
         run: |
           cd /data/QA-Automation/qaCommandCenter
           fuser -k 5000/tcp
-          python3 -m flask run --host=0.0.0.0 --port=5000
+          python3 -m flask initdb
+          python3 -m flask run --host=0.0.0.0 --port=5000 &
 
