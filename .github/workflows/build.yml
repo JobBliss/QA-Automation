@@ -10,6 +10,8 @@ jobs:
     name: copy
     runs-on: self-hosted
     steps:
+      - name: checkout
+        uses: actions/checkout@master
       - name: copy
         run: |
           cp -r /QA-Automation/qaCommandCenter/ /data/QA-Automation/
